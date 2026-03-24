@@ -70,6 +70,6 @@ vim.api.nvim_create_user_command("QuadHeadList", function()
   local targets = require("quadHead.targets").list()
 
   for name, t in pairs(targets) do
-    print(name, "-> pane", t.pane)
+    print(name, "-> pane", pane)
   end
 end, {})
