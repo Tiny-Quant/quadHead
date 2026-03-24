@@ -47,6 +47,25 @@ vim.api.nvim_create_user_command("QuadHeadAttachR", function(opts)
   print("quadHead R attached to pane", pane)
 end, {nargs = "?",})
 
+vim.api.nvim_create_user_command("QuadHeadAttachPy", function(opts)
+  local backend = require("quadHead.backend").get()
+  local targets = require("quadHead.targets")
+
+  local pane
+
+  if opts.args ~= "" then
+    pane = tonumber(opts.args)
+  else
+    pane = backend.split("ipython")
+  end
+
+  backend.set_title(pane, "ipython")
+
+  targets.set("python", pane)
+
+  print("quadHead python attached to pane", pane)
+end, {nargs = "?",})
+
 vim.api.nvim_create_user_command("QuadHeadList", function()
   local targets = require("quadHead.targets").list()
 
