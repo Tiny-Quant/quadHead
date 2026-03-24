@@ -50,7 +50,7 @@ function M.split(cmd)
         error(out)
     end
 
-    return out
+    return vim.trim(out)
 end 
 
 function M.set_title(pane, title)
