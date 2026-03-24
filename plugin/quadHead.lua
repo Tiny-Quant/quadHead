@@ -73,3 +73,19 @@ vim.api.nvim_create_user_command("QuadHeadList", function()
     print(name, "-> pane", pane)
   end
 end, {})
+
+vim.api.nvim_create_user_command("QuadHeadSendLine", function()
+
+  local backend = require("quadHead.backend").get()
+  local targets = require("quadHead.targets")
+  local utils = require("quadHead.utils")
+
+  local target_name = utils.get_lang()
+
+  local pane = targets.get(target_name)
+
+  local line = vim.api.nvim_get_current_line()
+
+  backend.send(pane, line)
+
+end, {})
