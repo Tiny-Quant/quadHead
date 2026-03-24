@@ -36,4 +36,21 @@ function M.send(pane, text)
 end
 
 
+function M.split(cmd)
+    local out = vim.fn.system({
+        "tmux",
+        "split-window",
+        "-P",
+        "-F",
+        "#{pane_index}",
+        cmd
+    })
+
+    if vim.v.shell_error ~= 0 then 
+        error(out)
+    end
+
+    return tonumber(out)
+end 
+
 return M

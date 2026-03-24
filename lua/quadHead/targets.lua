@@ -1,17 +1,19 @@
 local M = {}
 
-local current_target = nil
+local targets = {}
 
-function M.set(pane)
-  current_target = pane 
+function M.set(name, pane)
+    targets[name] = pane
 end 
 
-function M.get()
-  if current_target == nil then
-    error("quadHead: no target attached")
-  end 
+function M.get(name)
+    local pane = targets[name]
 
-  return current_target
+    if pane == nil then 
+        error("quadHead: no target " .. name)
+    end 
+
+    return pane
 end
 
 return M
