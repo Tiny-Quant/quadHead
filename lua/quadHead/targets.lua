@@ -3,17 +3,23 @@ local M = {}
 local targets = {}
 
 function M.set(name, pane)
-    targets[name] = pane
+    targets[name] = {
+        pane = pane
+    }
 end 
 
 function M.get(name)
-    local pane = targets[name]
+    local t = targets[name]
 
-    if pane == nil then 
+    if t == nil then 
         error("quadHead: no target " .. name)
     end 
 
-    return pane
+    return t.pane
+end
+
+function M.list()
+    return targets
 end
 
 return M

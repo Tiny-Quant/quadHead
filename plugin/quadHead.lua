@@ -40,7 +40,17 @@ vim.api.nvim_create_user_command("QuadHeadAttachR", function(opts)
     pane = backend.split("radian")
   end
 
+  backend.set_title(pane, "radian")
+
   targets.set("r", pane)
 
   print("quadHead R attached to pane", pane)
 end, {nargs = "?",})
+
+vim.api.nvim_create_user_command("QuadHeadList", function()
+  local targets = require("quadHead.targets").list()
+
+  for name, t in pairs(targets) do
+    print(name, "-> pane", t.pane)
+  end
+end, {})

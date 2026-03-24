@@ -53,4 +53,19 @@ function M.split(cmd)
     return tonumber(out)
 end 
 
+function M.set_title(pane, title)
+    local out = vim.fn.system({
+        "tmux",
+        "select-pane",
+        "-t",
+        tostring(pane),
+        "-T",
+        title,
+    })
+
+    if vim.v.shell_error ~= 0 then 
+        error(out)
+    end
+end
+
 return M
