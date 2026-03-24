@@ -50,7 +50,7 @@ function M.split(cmd)
         error(out)
     end
 
-    return tonumber(out)
+    return out
 end 
 
 function M.set_title(pane, title)
