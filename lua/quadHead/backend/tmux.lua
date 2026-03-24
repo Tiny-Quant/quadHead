@@ -16,7 +16,7 @@ local function send_line(pane, line)
     "tmux",
     "send-keys",
     "-t",
-    tostring(pane),
+    pane,
     line,
     "Enter",
   })
@@ -100,6 +100,9 @@ function M.get_var(name)
   end
 
   local v = out:match("=(.+)")
+  if v then
+    v = vim.trim(v)
+  end
   return v
 end
 
