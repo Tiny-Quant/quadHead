@@ -69,7 +69,7 @@ end, {nargs = "?",})
 vim.api.nvim_create_user_command("QuadHeadList", function()
   local targets = require("quadHead.targets").list()
 
-  for name, t in pairs(targets) do
+  for name, pane in pairs(targets) do
     print(name, "-> pane", pane)
   end
 end, {})
