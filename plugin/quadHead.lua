@@ -11,7 +11,7 @@ end, {})
 
 vim.api.nvim_create_user_command("QuadHeadSendTest", function()
   local backend = require("quadHead.backend").get()
-  local target = require("quadHead.target").get()
+  local target = require("quadHead.targets").get()
 
   backend.send(target, "x <- 1\nx\n")
 end, {})
