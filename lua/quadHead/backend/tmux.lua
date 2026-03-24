@@ -42,7 +42,7 @@ function M.split(cmd)
         "split-window",
         "-P",
         "-F",
-        "#{pane_index}",
+        "#{pane_id}",
         cmd
     })
 
