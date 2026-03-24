@@ -10,7 +10,20 @@ vim.api.nvim_create_user_command("QuadHeadTest", function()
 end, {})
 
 vim.api.nvim_create_user_command("QuadHeadSendTest", function()
-  local b = require("quadHead.backend").get()
+  local backend = require("quadHead.backend").get()
+  local target = require("quadHead.target").get()
 
-  b.send(0, "x <- 1\nx\n")
+  backend.send(target, "x <- 1\nx\n")
 end, {})
+
+vim.api.nvim_create_user_command("QuadHeadAttach", function(opts)
+    local pane = tonumber(opts.args)
+
+    if pane == nil then 
+        print("quadHead: invalid pane")
+        return
+    end
+
+    require("quadHead.targets").set(pane)
+    print("quadHead attached to pane", pane)
+end, {nargs = 1})
