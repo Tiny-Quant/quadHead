@@ -79,10 +79,21 @@ vim.api.nvim_create_user_command("QuadHeadSendLine", function()
   local backend = require("quadHead.backend").get()
   local targets = require("quadHead.targets")
   local utils = require("quadHead.utils")
+  local attach = require("quadHead.start")
 
   local target_name = utils.get_lang()
 
-  local pane = targets.get(target_name)
+  local pane 
+
+  local ok, result = pcall(function()
+    return target.get(target_name)
+  end)
+
+  if ok then 
+    pane = result
+  else
+    pane = attach.attach(target_name)
+  end
 
   local line = vim.api.nvim_get_current_line()
 
