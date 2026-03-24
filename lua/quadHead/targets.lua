@@ -9,13 +9,14 @@ end
 
 
 function M.get(name)
-  local pane = backend.get_var(name)
+--   local pane = backend.get_var(name)
 
-  if not pane then
-    error("quadHead: no target " .. name)
-  end
+--   if not pane then
+--     error("quadHead: no target " .. name)
+--   end
 
-  return pane
+--   return pane
+    return backend.get_var(name)
 end
 
 
