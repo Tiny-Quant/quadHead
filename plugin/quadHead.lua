@@ -35,7 +35,7 @@ vim.api.nvim_create_user_command("QuadHeadAttachR", function(opts)
   local pane
 
   if opts.args ~= "" then
-    pane = tonumber(opts.args)
+    pane = opts.args
   else
     pane = backend.split("radian")
   end
@@ -54,7 +54,7 @@ vim.api.nvim_create_user_command("QuadHeadAttachPy", function(opts)
   local pane
 
   if opts.args ~= "" then
-    pane = tonumber(opts.args)
+    pane = opts.args
   else
     pane = backend.split("ipython")
   end
