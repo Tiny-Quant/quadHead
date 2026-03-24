@@ -1,25 +1,27 @@
 local M = {}
 
-local targets = {}
+local backend = require("quadHead.backend").get()
+
 
 function M.set(name, pane)
-    targets[name] = {
-        pane = pane
-    }
-end 
+  backend.set_var(name, pane)
+end
+
 
 function M.get(name)
-    local t = targets[name]
+  local pane = backend.get_var(name)
 
-    if t == nil then 
-        error("quadHead: no target " .. name)
-    end 
+  if not pane then
+    error("quadHead: no target " .. name)
+  end
 
-    return t.pane
+  return pane
 end
+
 
 function M.list()
-    return targets
+  return backend.list_vars()
 end
+
 
 return M
