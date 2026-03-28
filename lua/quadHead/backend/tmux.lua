@@ -29,6 +29,9 @@ function M.send(pane, text)
   for _, line in ipairs(lines) do
     send_line(pane, line)
   end
+
+  send_line(pane, "")
+
 end
 
 
