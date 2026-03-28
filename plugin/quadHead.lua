@@ -83,7 +83,7 @@ vim.api.nvim_create_user_command("QuadHeadSendLine", function()
 
   local target_name = utils.get_lang()
 
-  local pane = target.get(target_name)
+  local pane = targets.get(target_name)
 
   if not pane then 
     pane = attach.attach(target_name)
