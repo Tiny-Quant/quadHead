@@ -139,3 +139,36 @@ vim.api.nvim_create_user_command("QuadHeadSendSelection", function()
   backend.send(pane, text)
 
 end, { range = true })
+
+vim.api.nvim_create_user_command("QuadHeadSendCell", function()
+
+  local backend = require("quadHead.backend").get()
+  local targets = require("quadHead.targets")
+  local attach = require("quadHead.start")
+  local cells = require("quadHead.cells")
+
+  local cell = cells.get_current_cell()
+
+  if not cell then
+    print("quadHead: no cell found")
+    return
+  end
+
+  local lang = cells.get_cell_lang(cell.start_line)
+
+  if not lang then
+    print("quadHead: cannot detect cell language")
+    return
+  end
+
+  local pane = targets.get(lang)
+
+  if not pane or not backend.pane_exists(pane) then
+    pane = attach.attach(lang)
+  end
+
+  local text = table.concat(cell.lines, "\n")
+
+  backend.send(pane, text)
+
+end, {})
