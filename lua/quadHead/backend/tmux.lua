@@ -127,5 +127,27 @@ function M.list_vars()
   return result
 end
 
+function M.pane_exists(pane)
+
+  local out = vim.fn.system({
+    "tmux",
+    "list-panes",
+    "-a",
+    "-F",
+    "#{pane_id}",
+  })
+
+  if vim.v.shell_error ~= 0 then
+    return false
+  end
+
+  for line in out:gmatch("[^\n]+") do
+    if vim.trim(line) == pane then
+      return true
+    end
+  end
+
+  return false
+end
 
 return M
