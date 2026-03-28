@@ -116,33 +116,26 @@ vim.api.nvim_create_user_command("QuadHeadSendSelection", function()
 
   local pane = targets.get(target_name)
 
-  if not pane or not backend.pane_exists(pane) then 
+  if not pane or not backend.pane_exists(pane) then
     pane = attach.attach(target_name)
-  end 
+  end
 
-  -- get visual selection
-  local mode = vim.fn.mode()
+  local start_pos = vim.fn.getpos("'<")
+  local end_pos   = vim.fn.getpos("'>")
 
   local text
 
-  if mode == "v" or mode == "V" or mode == "\22" then
-    local start_pos = vim.fn.getpos("'<")
-    local end_pos   = vim.fn.getpos("'>")
-
+  if start_pos[2] ~= 0 and end_pos[2] ~= 0 then
     local lines = vim.fn.getline(start_pos[2], end_pos[2])
 
-    -- handle character-wise selection
-    if mode == "v" then
-      lines[#lines] = string.sub(lines[#lines], 1, end_pos[3])
-      lines[1] = string.sub(lines[1], start_pos[3])
-    end
+    lines[1] = string.sub(lines[1], start_pos[3])
+    lines[#lines] = string.sub(lines[#lines], 1, end_pos[3])
 
     text = table.concat(lines, "\n")
   else
-    -- fallback: current line
     text = vim.api.nvim_get_current_line()
   end
 
   backend.send(pane, text)
 
-end, {})
+end, { range = true })
