@@ -28,24 +28,42 @@ vim.api.nvim_create_user_command("QuadHeadAttach", function(opts)
     print("quadHead attached to pane", pane)
 end, {nargs = 1})
 
-vim.api.nvim_create_user_command("QuadHeadAttachR", function(opts)
+vim.api.nvim_create_user_command("QuadHeadAttachRplot", function(opts)
   local backend = require("quadHead.backend").get()
   local targets = require("quadHead.targets")
 
+  local args = vim.split(opts.args, "%s+", { plain = true })
   local pane
+  local port = 6969
 
-  if opts.args ~= "" then
-    pane = opts.args
-  else
+  if #args >= 1 and args[1] ~= "" then
+    pane = args[1]
+  end
+
+  if #args >= 2 and args[2] ~= "" then
+    port = tonumber(args[2])
+  end
+
+  if not pane then
     pane = backend.split("radian")
   end
 
-  backend.set_title(pane, "radian")
+  if not backend.pane_exists(pane) then
+    vim.api.nvim_err_writeln("QuadHead error: pane does not exist: " .. pane)
+    return
+  end
+
+  backend.set_title(pane, "rplot")
 
   targets.set("r", pane)
 
-  print("quadHead R attached to pane", pane)
-end, {nargs = "?",})
+  backend.send(pane, "library(httpgd)")
+  backend.send(pane, string.format('hgd(host = "0.0.0.0", port = %d)', port))
+  backend.send(pane, "hgd_url()")
+  backend.send(pane, "dev.cur()")
+
+  print("quadHead R plot attached to pane", pane, "port", port)
+end, {nargs = "?"})
 
 vim.api.nvim_create_user_command("QuadHeadAttachPy", function(opts)
   local backend = require("quadHead.backend").get()
